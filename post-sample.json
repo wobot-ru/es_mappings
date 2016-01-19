@@ -1,8 +1,12 @@
 {
+  "id": "vk897",
+  "profile_id": "vk3000",
   "source": "vk",
-  "post_id": "897",
+  "sm_post_id": "897",
   "href": "http://vk.com/wall-70034991_75466",
   "body": "Что мне нужно от языка Некоторые требования не подлежат обсуждению или поиску компромиссов",
   "post_date": "2015-12-03T14:19:08.055Z",
-  "involvement": "30"
+  "involvement": "30",
+  "is_comment": false
+
 }
