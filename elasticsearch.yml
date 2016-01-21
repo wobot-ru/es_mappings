@@ -1,0 +1,15 @@
+script.engine.groovy.file.aggs: on
+script.engine.groovy.file.mapping: on
+script.engine.groovy.file.search: on
+script.engine.groovy.file.update: on
+script.engine.groovy.file.plugin: on
+script.engine.groovy.indexed.aggs: on
+script.engine.groovy.indexed.mapping: on
+script.engine.groovy.indexed.search: on
+script.engine.groovy.indexed.update: on
+script.engine.groovy.indexed.plugin: on
+script.engine.groovy.inline.aggs: on
+script.engine.groovy.inline.mapping: on
+script.engine.groovy.inline.search: on
+script.engine.groovy.inline.update: on
+script.engine.groovy.inline.plugin: on
