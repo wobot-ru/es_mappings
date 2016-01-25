@@ -43,6 +43,9 @@
         },
 		"boost": {
           "type": "double"
+        },
+		"score": {
+          "type": "double"
         }
       }
     },
@@ -107,6 +110,9 @@
           "index": "not_analyzed"
         },
 		"boost": {
+          "type": "double"
+        },
+		"score": {
           "type": "double"
         }
       }
