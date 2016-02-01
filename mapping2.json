@@ -1,0 +1,95 @@
+{
+  "mappings": {
+    "post": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "source": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_city": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_gender": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "post_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "post_body": {
+          "type": "string",
+          "analyzer": "default",
+          "fields": {
+            "ru": {
+              "type": "string",
+              "analyzer": "russian"
+            },
+            "en": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "post_date": {
+          "type": "date"
+        },
+        "engagement": {
+          "type": "integer"
+        },
+        "reach": {
+          "type": "integer"
+        },
+        "is_comment": {
+          "type": "boolean"
+        },
+		"parent_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "crawl_date": {
+          "type": "date"
+        },
+		"segment": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+		"digest": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+		"boost": {
+          "type": "double"
+        },
+		"score": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}
