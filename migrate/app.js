@@ -11,8 +11,8 @@
 var elastic = require('elasticsearch');
 var async = require('co').wrap;
 
-var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
-var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
+var sourceClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
+var destClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
 
 var total = 0;
 
