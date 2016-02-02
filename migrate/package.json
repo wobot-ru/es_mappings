@@ -1,0 +1,15 @@
+{
+  "name": "migrate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wobot",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "elasticsearch": "^10.1.3"
+  }
+}
