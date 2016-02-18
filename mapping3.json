@@ -1,0 +1,156 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "ru_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip"
+          ],
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "russian_morphology",
+            "english_morphology",
+            "ru_stopwords",
+            "en_stopwords",
+            "worddelimiter"
+          ]
+        },
+        "en_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip"
+          ],
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "english_morphology",
+            "en_stopwords",
+            "worddelimiter"
+          ]
+        },
+        "no_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip"
+          ],
+          "tokenizer": "standard",
+          "filter": []
+        }
+      },
+      "filter": {
+        "ru_stopwords": {
+          "type": "stop",
+          "ignore_case": "true",
+          "stopwords": "а,без,более,бы,был,была,были,было,быть,в,вам,вас,весь,во,вот,все,всего,всех,вы,где,да,даже,для,до,его,ее,если,есть,еще,же,за,здесь,и,из,или,им,их,к,как,ко,когда,кто,ли,либо,мне,может,мы,на,надо,наш,не,него,нее,нет,ни,них,но,ну,о,об,однако,он,она,они,оно,от,очень,по,под,при,с,со,так,также,такой,там,те,тем,то,того,тоже,той,только,том,ты,у,уже,хотя,чего,чей,чем,что,чтобы,чье,чья,эта,эти,это,я"
+        },
+        "en_stopwords": {
+          "type": "stop",
+          "ignore_case": "true",
+          "stopwords": "a,an,and,are,as,at,be,but,by,for,if,in,into,is,it,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with"
+        },
+        "worddelimiter": {
+          "type": "word_delimiter"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "post": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "source": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_city": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_gender": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "post_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "post_body": {
+          "type": "string",
+          "analyzer": "default",
+          "fields": {
+            "ru": {
+              "type": "string",
+              "analyzer": "ru_analyzer"
+            },
+            "en": {
+              "type": "string",
+              "analyzer": "en_analyzer"
+            },
+            "na": {
+              "type": "string",
+              "analyzer": "no_analyzer"
+            }
+          }
+        },
+        "post_date": {
+          "type": "date"
+        },
+        "engagement": {
+          "type": "integer"
+        },
+        "reach": {
+          "type": "integer"
+        },
+        "is_comment": {
+          "type": "boolean"
+        },
+        "parent_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "crawl_date": {
+          "type": "date"
+        },
+        "segment": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "digest": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "boost": {
+          "type": "double"
+        },
+        "score": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}

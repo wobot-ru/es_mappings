@@ -11,10 +11,10 @@
 var elastic = require('elasticsearch');
 var async = require('co').wrap;
 
-var sourceClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
-var destClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
+var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
+var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
 
-const SOURCE_INDEX = 'wobot';
+const SOURCE_INDEX = 'wobot_fb';
 const DEST_INDEX = 'wobot3';
 const PROFILE_BATCH_SIZE = 1000;
 const POST_BATCH_SIZE = 1000;
@@ -33,7 +33,7 @@ var processPosts = async(function* (posts, profile) {
             sm_profile_id: profile._source.sm_profile_id,
             profile_name: profile._source.name,
             profile_href: profile._source.href,
-            profile_city: profile._source.city,
+            profile_city: profile._source.city || '',
             profile_gender: profile._source.gender,
             post_href: post._source.href,
             sm_post_id: post._source.sm_post_id,
