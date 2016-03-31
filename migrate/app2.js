@@ -1,3 +1,4 @@
+/*MIGRATES FROM NEW TO NEW SCHEMA*/
 /*
  known issues:
  ----------------

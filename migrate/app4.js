@@ -1,4 +1,4 @@
-/*MIGRATES FROM OLD TO NEW SCHEMA (BY POST)*/
+/*MIGRATES FROM OLD TO NEW SCHEMA BY DATE RANGE*/
 /*
  known issues:
  ----------------
@@ -12,8 +12,22 @@
 var elastic = require('elasticsearch');
 var async = require('co').wrap;
 
-var sourceClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
-var destClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
+var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
+var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
+
+const SOURCE_INDEX = 'wobot';
+const DEST_INDEX = 'wobot33';
+const BATCH_SIZE = 5000;
+
+const QUERY = {
+    "range": {
+        "post_date": {
+            "gte": "now-16d/d",
+            "lte": "now",
+            "time_zone": "+03:00"
+        }
+    }
+};
 
 var total = 0;
 
@@ -22,8 +36,8 @@ var processPosts = async(function* (hits) {
     var bulks = [];
     for (const post of hits) {
         try {
-            var profile = yield sourceClient.get({index: 'wobot', type: 'profile', id: post._parent});
-            bulks.push({index: {_index: 'wobot2', _type: 'post', _id: post._id}});
+            var profile = yield sourceClient.get({index: SOURCE_INDEX, type: 'profile', id: post._parent});
+            bulks.push({index: {_index: DEST_INDEX, _type: 'post', _id: post._id}});
             bulks.push({
                 id: post._id,
                 source: post._source.source,
@@ -60,11 +74,10 @@ var processPosts = async(function* (hits) {
 
 var migrate = async(function*() {
     var response = yield sourceClient.search({
-        index: 'wobot',
+        index: SOURCE_INDEX,
         type: 'post',
         scroll: '10m',
-        //search_type: 'scan',
-        body: {size: 1000, "sort": ["_doc"]}
+        body: {size: BATCH_SIZE, query: QUERY, "sort": ["_doc"]}
     });
 
     do {
