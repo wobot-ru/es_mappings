@@ -11,21 +11,36 @@
 "use strict";
 var elastic = require('elasticsearch');
 var async = require('co').wrap;
+var schedule = require('node-schedule');
 
 var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
 var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
 
-const SOURCE_INDEX = 'wobot';
+const SOURCE_INDEX = 'wobot_fb';
 const DEST_INDEX = 'wobot33';
-const BATCH_SIZE = 5000;
+const BATCH_SIZE = 3000;
 
 const QUERY = {
-    "range": {
-        "post_date": {
-            "gte": "now-16d/d",
-            "lte": "now",
-            "time_zone": "+03:00"
-        }
+    "bool": {
+        "must": [
+            {
+                "range": {
+                    "post_date": {
+                        "gte": "now-1M/d",
+                        "lte": "now",
+                        "time_zone": "+03:00"
+                    }
+                }
+            },
+            {
+                "has_parent": {
+                    "parent_type": "profile",
+                    "query": {
+                        "match_all": {}
+                    }
+                }
+            }
+        ]
     }
 };
 
@@ -62,14 +77,14 @@ var processPosts = async(function* (hits) {
             });
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
         }
     }
     if (bulks.length) {
         yield destClient.bulk({body: bulks});
     }
 
-    console.log("processed: " + total)
+    console.log("processed: " + total + ',\ttime: ' + new Date().toISOString())
 });
 
 var migrate = async(function*() {
@@ -86,12 +101,17 @@ var migrate = async(function*() {
     } while (response.hits.hits.length);
 });
 
-var action = migrate();
-action.then(function () {
-    console.log('---------COMPLETED--------');
+
+schedule.scheduleJob('* 0 23 * * *', function(){
+    var action = migrate();
+    action.then(function () {
+        console.log('---------COMPLETED--------');
+    });
+    action.catch(function (err) {
+        console.log('ERROR: ' + JSON.stringify(err));
+    });
 });
-action.catch(function (err) {
-    console.log('ERROR: ' + JSON.stringify(err));
-});
+
+
 
 
