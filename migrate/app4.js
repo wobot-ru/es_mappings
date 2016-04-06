@@ -13,8 +13,9 @@ var elastic = require('elasticsearch');
 var async = require('co').wrap;
 var schedule = require('node-schedule');
 
-var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
-var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
+
+var sourceClient = new elastic.Client({hosts: ['91.210.104.85:9200','91.210.104.95:9200','91.210.104.86:9200','91.210.104.84:9200','91.210.104.87:9200']});
+var destClient = new elastic.Client({hosts: ['91.210.104.85:9200','91.210.104.95:9200','91.210.104.86:9200','91.210.104.84:9200','91.210.104.87:9200']});
 
 const SOURCE_INDEX = 'wobot_fb';
 const DEST_INDEX = 'wobot33';
@@ -26,7 +27,7 @@ const QUERY = {
             {
                 "range": {
                     "post_date": {
-                        "gte": "now-1M/d",
+                        "gte": "now-14d/d",
                         "lte": "now",
                         "time_zone": "+03:00"
                     }
@@ -43,6 +44,14 @@ const QUERY = {
         ]
     }
 };
+
+const SORT = [
+    {
+        "post_date": {
+            "order": "desc"
+        }
+    }
+];
 
 var total = 0;
 
@@ -92,7 +101,7 @@ var migrate = async(function*() {
         index: SOURCE_INDEX,
         type: 'post',
         scroll: '10m',
-        body: {size: BATCH_SIZE, query: QUERY, "sort": ["_doc"]}
+        body: {size: BATCH_SIZE, query: QUERY, "sort": SORT}
     });
 
     do {
@@ -102,7 +111,7 @@ var migrate = async(function*() {
 });
 
 
-schedule.scheduleJob('* 0 23 * * *', function(){
+schedule.scheduleJob('0 0 0 * * *', function(){
     var action = migrate();
     action.then(function () {
         console.log('---------COMPLETED--------');
