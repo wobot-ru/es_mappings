@@ -11,7 +11,7 @@
 "use strict";
 var elastic = require('elasticsearch');
 var async = require('co').wrap;
-var schedule = require('node-schedule');
+var CronJob = require('cron').CronJob;
 
 
 var sourceClient = new elastic.Client({hosts: ['91.210.104.85:9200','91.210.104.95:9200','91.210.104.86:9200','91.210.104.84:9200','91.210.104.87:9200']});
@@ -111,7 +111,7 @@ var migrate = async(function*() {
 });
 
 
-schedule.scheduleJob('0 0 0 * * *', function(){
+var startProcessing = function () {
     var action = migrate();
     action.then(function () {
         console.log('---------COMPLETED--------');
@@ -119,7 +119,10 @@ schedule.scheduleJob('0 0 0 * * *', function(){
     action.catch(function (err) {
         console.log('ERROR: ' + JSON.stringify(err));
     });
-});
+};
+
+var job = new CronJob('0 0 23 * * *', startProcessing, null, false, 'Europe/Moscow');
+job.start();
 
 
 
