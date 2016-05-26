@@ -112,6 +112,7 @@ var migrate = async(function*() {
 
 
 var startProcessing = function () {
+    total = 0;
     var action = migrate();
     action.then(function () {
         console.log('---------COMPLETED--------');

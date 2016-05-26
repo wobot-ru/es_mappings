@@ -13,13 +13,13 @@ var elastic = require('elasticsearch');
 var async = require('co').wrap;
 
 var sourceClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
-var destClient = new elastic.Client({host: 'localhost:9200'/*, log: 'trace'*/});
+var destClient = new elastic.Client({host: '91.210.104.87:9200'/*, log: 'trace'*/});
 
-const SOURCE_INDEX = 'wobot_focus';
-const DEST_INDEX = 'wobot1';
-const PROFILE_BATCH_SIZE = 300;
-const POST_BATCH_SIZE = 300;
-const LIMIT = 15000;
+const SOURCE_INDEX = 'wobot_fb';
+const DEST_INDEX = 'wobot_fb1';
+const PROFILE_BATCH_SIZE = 3000;
+const POST_BATCH_SIZE = 3000;
+const LIMIT = 100000;
 
 var total = 0;
 
