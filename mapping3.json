@@ -123,7 +123,19 @@
         "engagement": {
           "type": "integer"
         },
+        "engagement_likes": {
+          "type": "integer"
+        },
+        "engagement_comments": {
+          "type": "integer"
+        },
+        "engagement_reposts": {
+          "type": "integer"
+        },
         "reach": {
+          "type": "integer"
+        },
+        "profile_reach": {
           "type": "integer"
         },
         "is_comment": {
@@ -133,7 +145,14 @@
           "type": "string",
           "index": "not_analyzed"
         },
-        "crawl_date": {
+        "is_repost": {
+          "type": "boolean"
+        },
+        "sm_original_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "fetch_time": {
           "type": "date"
         },
         "segment": {
