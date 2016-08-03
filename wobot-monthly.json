@@ -1,0 +1,265 @@
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1,
+    "analysis": {
+      "analyzer": {
+        "ru_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip"
+          ],
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "russian_morphology",
+            "english_morphology",
+            "ru_stopwords",
+            "en_stopwords",
+            "worddelimiter"
+          ]
+        },
+        "en_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip"
+          ],
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "english_morphology",
+            "en_stopwords",
+            "worddelimiter"
+          ]
+        },
+        "no_analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "html_strip",
+            "special_chars_mapping"
+          ],
+          "tokenizer": "whitespace",
+          "filter": []
+        }
+      },
+      "filter": {
+        "ru_stopwords": {
+          "type": "stop",
+          "ignore_case": "true",
+          "stopwords": ""
+        },
+        "en_stopwords": {
+          "type": "stop",
+          "ignore_case": "true",
+          "stopwords": ""
+        },
+        "worddelimiter": {
+          "type": "word_delimiter",
+          "preserve_original": "true"
+        },
+        "extended_tokens_pattern": {
+          "type": "pattern_capture",
+          "patterns": [
+            "([\\p{IsAlphabetic}]+)",
+            "([\\p{IsDigit}]+)",
+            "(\\.+)",
+            "(,+)",
+            "(;+)",
+            "(\\:+)",
+            "(\\?+)",
+            "(!+)",
+            "(\\(+)",
+            "(\\)+)",
+            "(\\\\+)",
+            "(\\/+)",
+            "(#+)",
+            "(@+)",
+            "(~+)",
+            "(&+)",
+            "(=+)",
+            "(\\++)",
+            "(-+)",
+            "(<+)",
+            "(>+)",
+            "(%+)",
+            "(\\^+)",
+            "(\\*+)"
+          ]
+        },
+        "extended_tokens_delimiter": {
+          "type": "word_delimiter",
+          "preserve_original": "true",
+          "type_table": [
+            "# => DIGIT",
+            "@ => DIGIT",
+            "& => DIGIT",
+            ". => DIGIT",
+            ", => DIGIT",
+            "; => DIGIT",
+            ": => DIGIT",
+            "+ => DIGIT",
+            "- => DIGIT",
+            "( => DIGIT",
+            ") => DIGIT",
+            "! => DIGIT",
+            "? => DIGIT",
+            "= => DIGIT",
+            "/ => DIGIT",
+            "< => DIGIT",
+            "> => DIGIT"
+          ]
+        }
+      },
+      "char_filter": {
+        "special_chars_mapping": {
+          "type": "mapping",
+          "mappings": [
+            "~ => \\u0020~\\u0020",
+            "! => \\u0020!\\u0020",
+            "@ => \\u0020@\\u0020",
+            "# => \\u0020#\\u0020",
+            "$ => \\u0020$\\u0020",
+            "% => \\u0020%\\u0020",
+            "^ => \\u0020^\\u0020",
+            "& => \\u0020&\\u0020",
+            "* => \\u0020*\\u0020",
+            "( => \\u0020(\\u0020",
+            ") => \\u0020)\\u0020",
+            "- => \\u0020-\\u0020",
+            "_ => \\u0020_\\u0020",
+            "= => \\u0020=\\u0020",
+            "+ => \\u0020+\\u0020",
+            ", => \\u0020,\\u0020",
+            ". => \\u0020.\\u0020",
+            "? => \\u0020?\\u0020",
+            "; => \\u0020;\\u0020",
+            ": => \\u0020:\\u0020"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "post": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "source": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_profile_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_country": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_city": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_gender": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "profile_birth_date": {
+          "type": "date"
+        },
+        "post_href": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "sm_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "post_body": {
+          "type": "string",
+          "analyzer": "default",
+          "fields": {
+            "ru": {
+              "type": "string",
+              "analyzer": "ru_analyzer"
+            },
+            "en": {
+              "type": "string",
+              "analyzer": "en_analyzer"
+            },
+            "na": {
+              "type": "string",
+              "analyzer": "no_analyzer"
+            }
+          }
+        },
+        "post_date": {
+          "type": "date"
+        },
+        "engagement": {
+          "type": "integer"
+        },
+        "engagement_likes": {
+          "type": "integer"
+        },
+        "engagement_comments": {
+          "type": "integer"
+        },
+        "engagement_reposts": {
+          "type": "integer"
+        },
+        "reach": {
+          "type": "integer"
+        },
+        "profile_reach": {
+          "type": "integer"
+        },
+        "is_comment": {
+          "type": "boolean"
+        },
+        "parent_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "is_repost": {
+          "type": "boolean"
+        },
+        "sm_original_post_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "fetch_time": {
+          "type": "date"
+        },
+        "segment": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "digest": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "boost": {
+          "type": "double"
+        },
+        "score": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}
